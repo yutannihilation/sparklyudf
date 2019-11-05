@@ -43,15 +43,15 @@ library(dplyr)
 
 sc <- spark_connect(master = "local")
 
-sparklyudf_register(sc)
+sparklyudf_register(sc, "(x: Double) => x * 2")
 ```
 
 Now the Scala UDF `hello()` is registered and can be used as follows:
 
-```{r}
+```{r error=TRUE}
 data.frame(name = "Javier") %>%
   copy_to(sc, .) %>%
-  mutate(hello = hello(name))
+  mutate(hello = hello(2.0))
 ```
 
 ```{r}
